@@ -2,7 +2,9 @@
   <section class="container">
     <div class="title">Reverse</div>
     <div v-for="(line, i) in board" :key="i" @click="sayHi" class="line">
-      <button v-for="(block, i) in line" :key="i" :class="blockJudge(block)" class="block"></button>
+      <button v-for="(block, i) in line" :key="i" class="block">
+        <div :class="blockJudge(block)" :style="styles(block)" class="piece"></div>
+      </button>
     </div>
   </section>
 </template>
@@ -28,14 +30,19 @@ export default {
     blockJudge() {
       return block => ({
         white: !!(block === 1),
-        black: !!(block === 2),
-        green: !!(block === 0)
+        black: !!(block === 2)
       });
     }
   },
   methods: {
     sayHi() {
       console.log("Hi");
+    },
+    styles(block) {
+      if (block === 0) return false;
+      return {
+        boxShadow: `0 3px ${block === 1 ? "black" : "white"}`
+      };
     }
   }
 };
@@ -45,7 +52,15 @@ export default {
 .block {
   width: 50px;
   height: 50px;
-  border: solid 1px white;
   vertical-align: bottom;
+  border: solid 1px;
+  border-color: black;
+  background-color: green;
+}
+.piece {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin: auto;
 }
 </style>
