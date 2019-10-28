@@ -1,7 +1,7 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
-      <nuxt-link to="/p">Home page</nuxt-link>
+      <nuxt-link to="/">Home page</nuxt-link>
       <div class="text-center">
         <logo />
         <vuetify-logo />
