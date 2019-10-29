@@ -64,12 +64,11 @@ export default {
       directions.forEach((direction, index) => {
         const adjacentY = y + direction.y;
         const adjacentX = x + direction.x;
+        if (adjacentY > 7 || adjacentY < 0) return;
         const adjacentBlock = this.board[adjacentY][adjacentX];
         const candidatePieces = [];
         let n = 1;
         let addableCandidates = true;
-
-        if (adjacentY > 7 || adjacentY < 0) return;
 
         if (adjacentBlock === this.currentColor * -1) {
           candidatePieces.push({ y: adjacentY, x: adjacentX });
@@ -109,7 +108,6 @@ export default {
           this.board[piece.y][piece.x] = this.currentColor;
         });
         this.currentColor = this.currentColor * -1;
-        console.log(x, y, this.board[y][x]);
       }
     }
   }
@@ -133,6 +131,7 @@ export default {
   border: solid 1px;
   border-color: black;
   background-color: green;
+  outline: none;
 }
 .piece {
   width: 40px;

@@ -2,7 +2,6 @@
   <section class="container">
     <modal v-if="overlay" @closeOverlay="closeOverlay" />
     <user-name-input v-if="visibleName" @register-name="registerName" />
-
     <div
       class="field"
       @wheel.prevent="onWheel"
@@ -15,7 +14,7 @@
       @mouseup.prevent="onMouseup"
       @contextmenu.prevent
     >
-      <svg viewbox="0 0 100% 100%" width="100%" height="100%">
+      <svg viewBox="0 0 100% 100%" width="100%" height="100%">
         <line
           class="border-x"
           v-for="i in gridY + infinitLine"
@@ -51,7 +50,6 @@
           :height="gridWidth"
         />
       </svg>
-
       <div class="target">
         <div
           v-for="(block, i) in blocks"
@@ -60,18 +58,17 @@
           :key="i"
         />
       </div>
-
       <ranking v-if="visibleRanking" :pointData="pointData" />
     </div>
   </section>
 </template>
 
 <script>
-import Modal from '~/components/Modal.vue';
-import Ranking from '~/components/Ranking.vue';
-import UserNameInput from '~/components/UserNameInput.vue';
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
-import calcDistance from '~/utils/calcDistance';
+import Modal from "~/components/Modal.vue";
+import Ranking from "~/components/Ranking.vue";
+import UserNameInput from "~/components/UserNameInput.vue";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import calcDistance from "~/utils/calcDistance";
 const ZOOMING_STEP = 10;
 export default {
   data() {
@@ -79,38 +76,46 @@ export default {
       overlay: true,
       isRequestToOpen: false,
       zoomingOnMobile: false,
-      prevDistanceForZooming: 0,
+      prevDistanceForZooming: 0
     };
   },
   components: {
     Modal,
     Ranking,
-    UserNameInput,
+    UserNameInput
   },
   computed: {
     ...mapState([
-      'gridWidth',
-      'userName',
-      'token',
-      'blocks',
-      'pointData',
-      'moveDist',
-      'dragFlg',
-      'windowSize',
+      "gridWidth",
+      "userName",
+      "token",
+      "blocks",
+      "pointData",
+      "moveDist",
+      "dragFlg",
+      "windowSize"
     ]),
-    ...mapGetters(['gridX', 'gridY', 'centerPos']),
+    ...mapGetters(["gridX", "gridY", "centerPos"]),
     infinitLine() {
       // 盤面が現表示領域のみであれば1、画面スクロール可能にして無限に盤面が続いているように見せるには2に変更
       return 2;
     },
     objPos() {
-      return (object) => ({
-        x: this.centerPos.x + this.gridWidth * object.x - this.gridWidth / 2 - this.moveDist.x, // 原点移動量調整
-        y: this.centerPos.y + this.gridWidth * object.y - this.gridWidth / 2 + this.moveDist.y, // 原点移動量調整
+      return object => ({
+        x:
+          this.centerPos.x +
+          this.gridWidth * object.x -
+          this.gridWidth / 2 -
+          this.moveDist.x, // 原点移動量調整
+        y:
+          this.centerPos.y +
+          this.gridWidth * object.y -
+          this.gridWidth / 2 +
+          this.moveDist.y // 原点移動量調整
       });
     },
     borderPos() {
-      return (i) => ({
+      return i => ({
         x:
           this.centerPos.x -
           // Gridの中心が座標となるよう修正
@@ -128,7 +133,7 @@ export default {
           Math.ceil(this.centerPos.y / this.gridWidth) * this.gridWidth +
           // 移動量調整
           (this.moveDist.y % this.gridWidth) +
-          this.gridWidth * (i - 1),
+          this.gridWidth * (i - 1)
       });
     },
     originOfCoordinates() {
@@ -141,20 +146,26 @@ export default {
       return this.pointData && !this.overlay;
     },
     blockJudge() {
-      return (block) => ({
-        'splite-bomb': block.exploded || block.bombCount !== 0,
+      return block => ({
+        "splite-bomb": block.exploded || block.bombCount !== 0
       });
     },
     explodeJudge() {
-      return (block) => ({
+      return block => ({
         exploded: block.exploded,
-        opened: !block.exploded,
+        opened: !block.exploded
       });
-    },
+    }
   },
   methods: {
-    ...mapActions(['getAccessToken', 'getPoint', 'getField', 'postField']),
-    ...mapMutations(['setInitPos', 'gridMove', 'resetInitPos', 'changeGridWidth', 'setGridX']),
+    ...mapActions(["getAccessToken", "getPoint", "getField", "postField"]),
+    ...mapMutations([
+      "setInitPos",
+      "gridMove",
+      "resetInitPos",
+      "changeGridWidth",
+      "setGridX"
+    ]),
     async registerName(inputName) {
       await this.getAccessToken(inputName);
       this.init(); // 新規に当ゲームを利用する場合は初期モーダル画面=>ユーザー名新規登録後に盤面情報の取得を開始
@@ -179,9 +190,10 @@ export default {
         left: `${this.centerPos.x +
           this.gridWidth * (block.x - 0.5 + (1 - imgRatio) / 2) -
           this.moveDist.x}px`,
-        backgroundPosition: `${(block.exploded ? 10 : block.bombCount - 1) * (100 / 13)}% 50%`,
+        backgroundPosition: `${(block.exploded ? 10 : block.bombCount - 1) *
+          (100 / 13)}% 50%`,
         width: `${this.gridWidth * imgRatio}px`,
-        height: `${this.gridWidth * imgRatio}px`,
+        height: `${this.gridWidth * imgRatio}px`
       };
     },
     onTouchStart({ touches }) {
@@ -189,7 +201,7 @@ export default {
         case 1:
           this.setInitPos({
             x: touches[0].pageX,
-            y: touches[0].pageY,
+            y: touches[0].pageY
           });
           break;
         case 2:
@@ -206,7 +218,7 @@ export default {
           if (!this.zooming) {
             this.gridMove({
               x: touches[0].pageX,
-              y: touches[0].pageY,
+              y: touches[0].pageY
             });
           }
           break;
@@ -233,9 +245,13 @@ export default {
     async onMouseup({ pageX, pageY }) {
       if (!this.dragFlg) {
         const block = {
-          x: Math.round((pageX - this.centerPos.x + this.moveDist.x) / this.gridWidth),
-          y: Math.round((pageY - this.centerPos.y - this.moveDist.y) / this.gridWidth),
-          isRequestToOpen: true,
+          x: Math.round(
+            (pageX - this.centerPos.x + this.moveDist.x) / this.gridWidth
+          ),
+          y: Math.round(
+            (pageY - this.centerPos.y - this.moveDist.y) / this.gridWidth
+          ),
+          isRequestToOpen: true
         };
         await this.postField(block);
       }
@@ -243,8 +259,8 @@ export default {
     },
     onWheel(e) {
       this.changeGridWidth(e.deltaY > 0 ? -1 : 1);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -304,7 +320,7 @@ export default {
 }
 .splite-bomb {
   overflow: hidden;
-  background-image: url('../assets/img.png');
+  background-image: url("../assets/img.png");
   background-repeat: no-repeat;
   background-size: 1400% 100%;
   position: fixed;
