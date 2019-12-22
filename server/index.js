@@ -8,9 +8,7 @@ const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 
 async function start () {
-  // Init Nuxt.js
-  const nuxt = new Nuxt(config)
-
+  const nuxt = new Nuxt(config) // Init Nuxt.js
   const { host, port } = nuxt.options.server
 
   // Build only in dev mode
@@ -21,11 +19,10 @@ async function start () {
     await nuxt.ready()
   }
 
-  // Give nuxt middleware to express
-  app.use(nuxt.render)
+  app.use("/", require('../api/index.js'))
+  app.use(nuxt.render) // Give nuxt middleware to express
+  app.listen(port, host) // Listen the server
 
-  // Listen the server
-  app.listen(port, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true

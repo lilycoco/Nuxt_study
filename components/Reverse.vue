@@ -3,13 +3,24 @@
     <div class="title">Reverse</div>
     <div class="boardArea">
       <div v-for="(line, index) in board" :key="index" class="line">
-        <button v-for="(block, i) in line" :key="i" class="block" @click="turnPieces(index, i)">
-          <div :class="pieceColorJudge(block)" :style="styles(block)" class="piece"></div>
+        <button
+          v-for="(block, i) in line"
+          :key="i"
+          class="block"
+          @click="turnPieces(index, i)"
+        >
+          <div
+            :class="pieceColorJudge(block)"
+            :style="styles(block)"
+            class="piece"
+          ></div>
         </button>
       </div>
     </div>
     <div class="gameInfoArea">
-      <div class="nextTurn">Next Turn: {{currentColor === 1 ? "white" : "black"}}</div>
+      <div class="nextTurn">
+        Next Turn: {{ currentColor === 1 ? "white" : "black" }}
+      </div>
     </div>
   </section>
 </template>
@@ -78,7 +89,8 @@ export default {
             if (
               candidateY > 7 ||
               candidateY < 0 ||
-              (candidateX > 7 || candidateX < 0)
+              candidateX > 7 ||
+              candidateX < 0
             ) {
               addableCandidates = false;
               break;
