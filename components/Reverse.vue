@@ -2,7 +2,7 @@
   <section class="container">
     <div class="title">Reverse</div>
     <div class="boardArea">
-      <div v-for="(line, index) in board" :key="index" class="line">
+      <div v-for="(line, index) in boardData" :key="index" class="line">
         <button
           v-for="(block, i) in line"
           :key="i"
@@ -21,6 +21,7 @@
       <div class="nextTurn">
         Next Turn: {{ currentColor === 1 ? "white" : "black" }}
       </div>
+      <div>{{ authData[0].name }}</div>
     </div>
   </section>
 </template>
@@ -37,6 +38,7 @@ const directions = [
   { x: -1, y: 0 }
 ];
 export default {
+  props: ["boardData", "authData"],
   data() {
     return {
       board: [

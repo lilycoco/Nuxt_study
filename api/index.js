@@ -1,21 +1,16 @@
-const express = require('express');
-const app = express();
+const { Router } = require("express");
+const router = Router();
 
-app.get("/auth", (req, res) => {
-  res.send({abcrr:"API server works fine"});
+router.get("/auth", (req, res) => {
+  const auth = require("./auth.js");
+  res.send(auth);
   // return "API server works fine"
+});
 
-})
+router.get("/board", (req, res) => {
+  const board = require("./board.js");
+  console.log({ req, res });
+  res.send(board);
+});
 
-app.get("/board", (req, res) => {
-  // res.send("othero");
-  console.log(req)
-  var responseText = 'Hello World!<br>'
-  responseText += '<small>Requested at: ' + req + '</small>'
-  res.send(responseText)
-})
-
-module.exports = {
-  path: '/',
-  handler: app
-}
+module.exports = router;
