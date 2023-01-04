@@ -15,7 +15,7 @@
     "@nuxtjs/axios": "^5.9.0",
     "cross-env": "^5.2.0",
     "es6-promise": "^4.2.8",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
